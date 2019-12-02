@@ -1,36 +1,67 @@
 import React from 'react';
 import Square from '../Square/Square';
+import './Board.css';
 
 class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             squares: Array(9).fill(null),
-            xIsNext: true
+            randomPosition: null,
+            randomSound: null
         };
     }
 
-    renderSquare(i) {
-        return <Square value={this.state.squares[i]}
-            onClick={() => this.handleClick(i)}
-        />;
+    renderSound() {
+        switch (this.randomSound) {
+            case 0:
+                return "One";
+            case 1:
+                return "Two";
+            case 2:
+                return "Three";
+            case 3:
+                return "Four";
+            case 4:
+                return "Five";
+            case 5:
+                return "Six";
+            case 6:
+                return "Seven";
+            case 7:
+                return "Eight";
+            case 8:
+                return "Nine";
+        }
     }
 
-    handleClick(i) {
-        const squares = this.state.squares.slice();
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-            squares: squares, xIsNext: !this.state.xIsNext
-        });
+    renderSquare(i) {
+        if (this.state.randomPosition == i) {
+            return <Square value={this.state.squares[i]} className="picked-square" />
+        }
+        return <Square value={this.state.squares[i]} className="square" />;
+    }
 
+    textToSpeech() {
+        var message = this.renderSound();
+        var msg = new SpeechSynthesisUtterance(message)
+        var voices = window.speechSynthesis.getVoices()
+        msg.voice = voices[0]
+        window.speechSynthesis.speak(msg)
+    }
+
+    startGame() {
+        window.setInterval(() => {
+            this.setState({ randomPosition: Math.floor(Math.random() * 9), randomSound: Math.floor(Math.random() * 9) });
+            this.textToSpeech();
+        }, 2000)
     }
 
     render() {
-        const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-
         return (
             <div>
-                <div className="status">{status}</div>
+                <button className="button" onClick={() => this.startGame()}>Start</button>
+
                 <div className="board-row">
                     {this.renderSquare(0)}
                     {this.renderSquare(1)}
@@ -45,6 +76,10 @@ class Board extends React.Component {
                     {this.renderSquare(6)}
                     {this.renderSquare(7)}
                     {this.renderSquare(8)}
+                </div>
+                <div className="buttonContainer">
+                    <button className="button">Position</button>
+                    <button className="button">Sound</button>
                 </div>
             </div>
         );
