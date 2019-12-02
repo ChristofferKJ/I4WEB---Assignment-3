@@ -8,12 +8,15 @@ class Board extends React.Component {
         this.state = {
             squares: Array(9).fill(null),
             randomPosition: null,
-            randomSound: null
+            randomSound: null,
+            score: 0,
+            history: [],
+            gameInProgress: false
         };
     }
 
-    renderSound() {
-        switch (this.randomSound) {
+    getSoundMessage() {
+        switch (this.state.randomSound) {
             case 0:
                 return "One";
             case 1:
@@ -43,7 +46,7 @@ class Board extends React.Component {
     }
 
     textToSpeech() {
-        var message = this.renderSound();
+        var message = this.getSoundMessage();
         var msg = new SpeechSynthesisUtterance(message)
         var voices = window.speechSynthesis.getVoices()
         msg.voice = voices[0]
@@ -51,16 +54,42 @@ class Board extends React.Component {
     }
 
     startGame() {
-        window.setInterval(() => {
+        this.setState({ gameInProgress: true })
+        id = window.setInterval(() => {
             this.setState({ randomPosition: Math.floor(Math.random() * 9), randomSound: Math.floor(Math.random() * 9) });
+            this.state.history.push(this.state);
+            console.log("Game history: ", this.state.history);
             this.textToSpeech();
-        }, 2000)
+            if (this.state.history.length == 24) {
+                // STOP GAME
+                console.log("Game is over! Final score: ", this.state.score)
+                this.setState({ gameInProgress: false })
+                window.clearInterval(id);
+            }
+        }, 5000)
+    }
+
+    stopGame() {
+        // STOP GAME
+        this.setState({ gameInProgress: false });
+        window.clearInterval(id);
+        console.log("You stopped the game! Final score: ", this.state.score)
+    }
+
+    soundRightClicked() {
+        console.log("soundright clicked");
+    }
+
+    positionRightClicked() {
+        console.log("positionright clicked")
     }
 
     render() {
         return (
             <div>
-                <button className="button" onClick={() => this.startGame()}>Start</button>
+                <button className={this.state.gameInProgress ? 'hidden' : 'button'} onClick={() => this.startGame()}>Start</button>
+                <button className={!this.state.gameInProgress ? 'hidden' : 'button'} onClick={() => this.stopGame()}>Stop</button>
+
 
                 <div className="board-row">
                     {this.renderSquare(0)}
@@ -78,8 +107,8 @@ class Board extends React.Component {
                     {this.renderSquare(8)}
                 </div>
                 <div className="buttonContainer">
-                    <button className="button">Position</button>
-                    <button className="button">Sound</button>
+                    <button className="button" onClick={() => this.positionRightClicked()}>Position</button>
+                    <button className="button" onClick={() => this.soundRightClicked()}>Sound</button>
                 </div>
             </div>
         );
