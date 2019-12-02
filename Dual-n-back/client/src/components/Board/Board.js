@@ -24,17 +24,17 @@ class Board extends React.Component {
             case 1:
                 return "Two";
             case 2:
-                return "Three";
+                return "Supersoaker";
             case 3:
-                return "Four";
+                return "Red";
             case 4:
-                return "Five";
+                return "Scooter";
             case 5:
-                return "Six";
+                return "Black";
             case 6:
-                return "Seven";
+                return "White";
             case 7:
-                return "Eight";
+                return "Mogadishu";
             case 8:
                 return "Nine";
         }
@@ -56,6 +56,7 @@ class Board extends React.Component {
     }
 
     startGame() {
+        console.log(this.state.n);
         this.setState({ gameInProgress: true })
         var id = window.setInterval(() => {
             this.setState({ randomPosition: Math.floor(Math.random() * 9), randomSound: Math.floor(Math.random() * 9) });
@@ -69,7 +70,7 @@ class Board extends React.Component {
                 this.setState({ gameInProgress: false })
                 window.clearInterval(id);
             }
-        }, 5000)
+        }, 2000)
     }
 
     stopGame() {
@@ -107,6 +108,31 @@ class Board extends React.Component {
     render() {
         return (
             <div>
+                <p>Select n</p>
+                <select onChange={(e) => this.setState({n: parseInt(e.currentTarget.value)})}>
+                    <option value="1">
+                        1
+                        </option>
+                    <option value="2">
+                        2
+                        </option>
+                    <option value="3">
+                        3
+                        </option>
+                    <option value="4">
+                        4
+                        </option>
+                    <option value="5">
+                        5
+                        </option>
+                    <option value="6">
+                        6
+                        </option>
+                    <option value="7">
+                        7
+                        </option>
+                </select>
+
 
                 <p>
                     score: {this.state.score}
