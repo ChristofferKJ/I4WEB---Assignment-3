@@ -12,8 +12,8 @@ class Board extends React.Component {
             score: 0,
             history: [],
             gameInProgress: false,
-            n: 2,
-
+            timerId: null,
+            n: 2
         };
     }
 
@@ -56,6 +56,7 @@ class Board extends React.Component {
     }
 
     startGame() {
+<<<<<<< HEAD
         console.log(this.state.n);
         this.setState({ gameInProgress: true })
         var id = window.setInterval(() => {
@@ -71,10 +72,27 @@ class Board extends React.Component {
                 window.clearInterval(id);
             }
         }, 2000)
+=======
+        this.setState({ gameInProgress: true });
+        this.setState({ timerId: window.setInterval(() => this.gameIterations(), 4000) })
+    }
+
+    gameIterations() {
+        this.setState({ randomPosition: Math.floor(Math.random() * 9), randomSound: Math.floor(Math.random() * 9) });
+        this.state.history.push(this.state);
+        console.log("Game history: ", this.state.history);
+        this.textToSpeech();
+        if (this.state.history.length == 24) {
+            // STOP GAME
+            console.log("Game is over! Final score: ", this.state.score)
+            this.setState({ gameInProgress: false })
+            window.clearInterval(this.state.timerId);
+        }
+>>>>>>> a884c11625acc7ffde61c1ba92260c675e8e65af
     }
 
     stopGame() {
-        // STOP GAME
+        clearInterval(this.state.timerId);
         this.setState({ gameInProgress: false });
         console.log("You stopped the game! Final score: ", this.state.score)
     }
