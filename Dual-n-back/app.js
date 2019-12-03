@@ -3,8 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const passport = require('passport');
 
+//passport config
+require('./config/local')(passport)
+require('./config/jwt')(passport)
+
+//Routes
+var homeRouter = require('./routes/homeRoute')
 var scoreRouter = require('./routes/scoreRoute');
+var userRouter = require('./routes/userRoute')
 
 var app = express();
 // Mongoose & mongodb
@@ -27,6 +35,9 @@ mongoose.connection.on('disconnected', () => {
   console.log('Mongoose disconnected');
 });
 
+//passport middleware 
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,7 +50,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //routes
+app.use('/', homeRouter)
 app.use('/score', scoreRouter);
+app.use('/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
