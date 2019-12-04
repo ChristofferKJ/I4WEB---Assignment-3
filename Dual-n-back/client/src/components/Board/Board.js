@@ -90,7 +90,7 @@ class Board extends React.Component {
     startGame() {
         let item = localStorage.getItem('token');
         console.log(item);
-        if (item !== "undefined" && item !== undefined) {
+        if (item !== "undefined" && item !== undefined && item !== null) {
             this.setState({ gameInProgress: true });
             this.setState({ timerId: window.setInterval(() => this.gameIterations(), 4000) })
         } else {
@@ -105,6 +105,7 @@ class Board extends React.Component {
         this.textToSpeech();
         if (this.state.history.length === 24) {
             // STOP GAME
+            this.submitMessage(this.state.score);
             console.log("Game is over! Final score: ", this.state.score);
             this.setState({ gameInProgress: false });
             window.clearInterval(this.state.timerId);
