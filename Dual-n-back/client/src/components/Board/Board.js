@@ -42,8 +42,8 @@ class Board extends React.Component {
     addMessage = message =>
         this.setState(state => ({ messages: [message, ...state.messages] }))
 
-    submitMessage() {
-        this.ws.send("megafed")
+    submitMessage(msg) {
+        this.ws.send(msg)
     }
 
 
@@ -92,7 +92,7 @@ class Board extends React.Component {
         console.log(item);
         if (item !== "undefined" && item !== undefined && item !== null) {
             this.setState({ gameInProgress: true });
-            this.setState({ timerId: window.setInterval(() => this.gameIterations(), 4000) })
+            this.setState({ timerId: window.setInterval(() => this.gameIterations(), 2000) })
         } else {
             alert("Login or register to play")
         }
@@ -103,16 +103,33 @@ class Board extends React.Component {
         this.state.history.push(this.state);
         console.log("Game history: ", this.state.history);
         this.textToSpeech();
-        if (this.state.history.length === 24) {
+        if (this.state.history.length === 4) {
             // STOP GAME
-            this.submitMessage(this.state.score);
+
             console.log("Game is over! Final score: ", this.state.score);
+            this.pushScore(this.state.score)
             this.setState({ gameInProgress: false });
             window.clearInterval(this.state.timerId);
         }
     }
 
+    pushScore(score) {
+        let thisref = this
+        fetch('http://localhost:4000/score', {
+            method: 'post',
+            body: JSON.stringify({score}),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer '+ localStorage.getItem('token').toString()}
+        }).then(function (response) {
+            response.json().then(json => {
+                thisref.submitMessage("new_score");
+            })
+        });
+    }
+
     stopGame() {
+
         clearInterval(this.state.timerId);
         this.setState({ randomPosition: null });
         this.setState({ gameInProgress: false });
