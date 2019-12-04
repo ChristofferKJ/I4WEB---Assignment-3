@@ -24,7 +24,7 @@ class Register extends React.Component {
         }).then(function (response) {
             response.json().then(json => {
                 const { token } = json;
-                //todo save token here
+                localStorage.setItem('token', token);
                 console.log(token);
             })
         });
