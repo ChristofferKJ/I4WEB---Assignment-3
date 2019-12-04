@@ -6,6 +6,13 @@ var logger = require('morgan');
 const passport = require('passport');
 const net = require('net');
 var cors = require('cors')
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 3030 });
+
+
+
+
+
 
 //passport config
 require('./config/local')(passport)
@@ -73,23 +80,15 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-
-
-// WEBSOCKET 
-const server = net.createServer((socket) => {
-  socket.on('data', (data) => {
-    console.log(data.toString());
+//websocket
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(data) {
+    wss.clients.forEach(function each(client) {
+      console.log("1")
+      client.send(data); 
+    });
   });
-
-  socket.write('SERVER: Hello! This is server speaking.\n');
-  socket.end('SERVER: Closing connection now.\n');
-}).on('error', (err) => {
-  console.error(err);
 });
 
-// Open server on port 9898
-server.listen(9898, () => {
-  console.log('opened server on', server.address().port);
-});
 
 module.exports = app;

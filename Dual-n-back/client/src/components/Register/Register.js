@@ -4,8 +4,7 @@ import './Register.css';
 class Register extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.state = {};
     }
 
     handleRegister(event) {
@@ -23,13 +22,15 @@ class Register extends React.Component {
             body: JSON.stringify({ username, password, confirm_password }),
             headers: { 'Content-Type': 'application/json' }
         }).then(function (response) {
-            let reader = response.body.getReader();
-            console.log(response.json());
+            response.json().then(json => {
+                const { token } = json;
+                //todo save token here
+                console.log(token);
+            })
         });
-        console.log(JSON.stringify({ username, password, confirm_password }));
+
 
     }
-
     render() {
         return (
             <div>
