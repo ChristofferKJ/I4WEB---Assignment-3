@@ -1,14 +1,14 @@
 import React from 'react';
-import './Login.css';
+import './Register.css';
 
-class Login extends React.Component {
+class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
         };
     }
 
-    handleLogin(e) {
+    handleRegister(e) {
         let username;
         let password;
 
@@ -22,15 +22,16 @@ class Login extends React.Component {
     render() {
         return (
             <div>
-                <p>Login</p>
-                <form className="loginForm" onSubmit={e => this.handleLogin(e)} >
+                <p>Register</p>
+                <form className="registerForm" onSubmit={e => this.handleRegister(e)} >
                     Username: <input type="text" name="username" id="usernameId" />
                     Password: <input type="password" name="password" id="passwordId" />
-                    <input type="submit" value="Login" id="loginId"></input>
+                    <input type="submit" value="Register" id="registerId"></input>
+
                 </form>
             </div>
         );
     }
 }
 
-export default Login;
+export default Register;
