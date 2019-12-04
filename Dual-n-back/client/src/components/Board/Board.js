@@ -1,6 +1,7 @@
 import React from 'react';
 import Square from '../Square/Square';
 import './Board.css';
+import HighScore from '../HighScore/HighScore';
 const URL = 'ws://localhost:3030'
 
 
@@ -20,6 +21,7 @@ class Board extends React.Component {
         };
     }
 
+    ws = new WebSocket(URL);
 
     componentDidMount() {
         this.ws.onopen = () => {
@@ -28,7 +30,7 @@ class Board extends React.Component {
     
         this.ws.onmessage = evt => {
 
-            //modtag hiscore liste
+            console.log(evt)
 
         }
     
@@ -90,8 +92,9 @@ class Board extends React.Component {
     }
 
     startGame() {
-        this.setState({gameInProgress: true});
-        this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
+        this.submitMessage("hey yo"); 
+        //this.setState({gameInProgress: true});
+        //this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
     }
 
     gameIterations() {
@@ -198,34 +201,5 @@ class Board extends React.Component {
 }
 
 
-
-    componentDidMount() {
-      this.ws.onopen = () => {
-        // on connecting, do nothing but log it to the console
-        console.log('connected')
-      }
-  
-      this.ws.onmessage = evt => {
-        // on receiving a message, add it to the list of messages
-
-        console.log(evt)
-      }
-  
-      this.ws.onclose = () => {
-        console.log('disconnected')
-        // automatically try to reconnect on connection loss
-        this.setState({
-          ws: new WebSocket(URL),
-        })
-      }
-    }
-
-    addMessage = message =>
-    this.setState(state => ({ messages: [message, ...state.messages] }))
-
-    submitMessage()
-    {
-        this.ws.send("megafed")
-    }
 
 export default Board;
