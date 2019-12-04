@@ -1,7 +1,8 @@
 import React from 'react';
 import './HighScore.css';
-
+const URL = 'ws://localhost:3030'
 class HighScore extends React.Component {
+    ws = new WebSocket(URL);
     constructor(props) {
         super(props);
         this.state = {
@@ -10,7 +11,28 @@ class HighScore extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.ws.onopen = () => {
+            console.log('connected')
+        }
 
+        this.ws.onmessage = evt => {
+                if (evt.data === "new_score"){
+                    //highscore updated
+                    console.log("new_score")
+                    this.fetchHighscores()
+                } else {
+                    console.log("old")
+                }
+        }
+
+        this.ws.onclose = () => {
+            console.log('disconnected')
+            this.setState({
+                ws: new WebSocket(URL),
+            })
+        }
+    }
     fetchHighscores() {
         let scores = [];
         let names = [];
