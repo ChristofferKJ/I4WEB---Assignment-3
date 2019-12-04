@@ -28,10 +28,6 @@ class HighScore extends React.Component {
                 })
             })
         });
-        //TODO: FETCH HIGHSCORES INTO STATE
-        localStorage.getItem('token');
-        console.log("TOKEN: ", localStorage.getItem('token'))
-
     }
 
     render() {

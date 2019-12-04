@@ -1,12 +1,13 @@
 import React from 'react';
 import Square from '../Square/Square';
 import './Board.css';
-import HighScore from '../HighScore/HighScore';
+
 const URL = 'ws://localhost:3030'
 
 
-
 class Board extends React.Component {
+    ws = new WebSocket(URL);
+
     constructor(props) {
         super(props);
         this.state = {
@@ -21,34 +22,29 @@ class Board extends React.Component {
         };
     }
 
-    ws = new WebSocket(URL);
-
     componentDidMount() {
         this.ws.onopen = () => {
-          console.log('connected')
+            console.log('connected')
         }
-    
+
         this.ws.onmessage = evt => {
-
             console.log(evt)
+        }
 
-        }
-    
         this.ws.onclose = () => {
-          console.log('disconnected')
-          this.setState({
-            ws: new WebSocket(URL),
-          })
+            console.log('disconnected')
+            this.setState({
+                ws: new WebSocket(URL),
+            })
         }
-      }
-  
-      addMessage = message =>
-      this.setState(state => ({ messages: [message, ...state.messages] }))
-  
-      submitMessage()
-      {
-          this.ws.send("megafed")
-      }
+    }
+
+    addMessage = message =>
+        this.setState(state => ({messages: [message, ...state.messages]}))
+
+    submitMessage() {
+        this.ws.send("megafed")
+    }
 
 
     getSoundMessage() {
@@ -92,9 +88,14 @@ class Board extends React.Component {
     }
 
     startGame() {
-        this.submitMessage("hey yo"); 
-        //this.setState({gameInProgress: true});
-        //this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
+        let item = localStorage.getItem('token');
+        console.log(item);
+        if (item !== "undefined") {
+            this.setState({gameInProgress: true});
+            this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
+        } else {
+            alert("Login or register to play")
+        }
     }
 
     gameIterations() {
@@ -114,7 +115,7 @@ class Board extends React.Component {
         clearInterval(this.state.timerId);
         this.setState({gameInProgress: false});
         console.log("You stopped the game! Final score: ", this.state.score)
-        
+
     }
 
     soundRightClicked() {
@@ -199,7 +200,6 @@ class Board extends React.Component {
         );
     }
 }
-
 
 
 export default Board;
