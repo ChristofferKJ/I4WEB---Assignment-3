@@ -40,7 +40,7 @@ class Board extends React.Component {
     }
 
     addMessage = message =>
-        this.setState(state => ({messages: [message, ...state.messages]}))
+        this.setState(state => ({ messages: [message, ...state.messages] }))
 
     submitMessage() {
         this.ws.send("megafed")
@@ -74,9 +74,9 @@ class Board extends React.Component {
 
     renderSquare(i) {
         if (this.state.randomPosition === i) {
-            return <Square value={this.state.squares[i]} className="picked-square"/>
+            return <Square value={this.state.squares[i]} className="picked-square" />
         }
-        return <Square value={this.state.squares[i]} className="square"/>;
+        return <Square value={this.state.squares[i]} className="square" />;
     }
 
     textToSpeech() {
@@ -88,38 +88,33 @@ class Board extends React.Component {
     }
 
     startGame() {
-<<<<<<< HEAD
-        this.setState({gameInProgress: true});
-        this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
-=======
         let item = localStorage.getItem('token');
         console.log(item);
         if (item !== "undefined") {
-            this.setState({gameInProgress: true});
-            this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
+            this.setState({ gameInProgress: true });
+            this.setState({ timerId: window.setInterval(() => this.gameIterations(), 4000) })
         } else {
             alert("Login or register to play")
         }
->>>>>>> 2645dc448da383480bad2b647831b180a703b053
     }
 
     gameIterations() {
-        this.setState({randomPosition: Math.floor(Math.random() * 9), randomSound: Math.floor(Math.random() * 9)});
+        this.setState({ randomPosition: Math.floor(Math.random() * 9), randomSound: Math.floor(Math.random() * 9) });
         this.state.history.push(this.state);
         console.log("Game history: ", this.state.history);
         this.textToSpeech();
         if (this.state.history.length === 24) {
             // STOP GAME
             console.log("Game is over! Final score: ", this.state.score);
-            this.setState({gameInProgress: false});
+            this.setState({ gameInProgress: false });
             window.clearInterval(this.state.timerId);
         }
     }
 
     stopGame() {
         clearInterval(this.state.timerId);
-        this.setState({randomPosition: null});
-        this.setState({gameInProgress: false});
+        this.setState({ randomPosition: null });
+        this.setState({ gameInProgress: false });
         console.log("You stopped the game! Final score: ", this.state.score)
 
     }
@@ -127,9 +122,9 @@ class Board extends React.Component {
     soundRightClicked() {
         if (this.state.gameInProgress) {
             if (this.state.randomSound === this.state.history[this.state.history.length - this.state.n].randomSound) {
-                this.setState({score: this.state.score + 1});
+                this.setState({ score: this.state.score + 1 });
             } else {
-                this.setState({score: this.state.score - 1});
+                this.setState({ score: this.state.score - 1 });
             }
         }
     }
@@ -137,9 +132,9 @@ class Board extends React.Component {
     positionRightClicked() {
         if (this.state.gameInProgress) {
             if (this.state.randomPosition === this.state.history[this.state.history.length - 2].randomPosition) {
-                this.setState({score: this.state.score + 1});
+                this.setState({ score: this.state.score + 1 });
             } else
-                this.setState({score: this.state.score - 1});
+                this.setState({ score: this.state.score - 1 });
         }
     }
 
@@ -147,7 +142,7 @@ class Board extends React.Component {
         return (
             <div>
                 <p>Select n</p>
-                <select onChange={(e) => this.setState({n: parseInt(e.currentTarget.value)})}>
+                <select onChange={(e) => this.setState({ n: parseInt(e.currentTarget.value) })}>
                     <option value="1">
                         1
                     </option>
@@ -176,10 +171,10 @@ class Board extends React.Component {
                 </p>
 
                 <button className={this.state.gameInProgress ? 'hidden' : 'button'}
-                        onClick={() => this.startGame()}>Start
+                    onClick={() => this.startGame()}>Start
                 </button>
                 <button className={!this.state.gameInProgress ? 'hidden' : 'button'}
-                        onClick={() => this.stopGame()}>Stop
+                    onClick={() => this.stopGame()}>Stop
                 </button>
 
 
