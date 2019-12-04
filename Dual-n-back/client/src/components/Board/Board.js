@@ -108,7 +108,7 @@ class Board extends React.Component {
             // STOP GAME
             this.submitMessage(this.state.score);
             console.log("Game is over! Final score: ", this.state.score);
-            this.setState({ gameInProgress: false });
+            this.setState({ gameInProgress: false, timerId: null });
             window.clearInterval(this.state.timerId);
         }
     }
