@@ -6,6 +6,13 @@ var logger = require('morgan');
 const passport = require('passport');
 const net = require('net');
 var cors = require('cors')
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 3030 });
+
+
+
+
+
 
 //passport config
 require('./config/local')(passport)
@@ -71,6 +78,16 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+//websocket
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(data) {
+    wss.clients.forEach(function each(client) {
+      console.log("1")
+      client.send(data); 
+    });
+  });
 });
 
 

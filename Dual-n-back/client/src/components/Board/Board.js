@@ -1,6 +1,8 @@
 import React from 'react';
 import Square from '../Square/Square';
 import './Board.css';
+const URL = 'ws://localhost:3030'
+
 
 
 class Board extends React.Component {
@@ -17,6 +19,35 @@ class Board extends React.Component {
             n: 2
         };
     }
+
+
+    componentDidMount() {
+        this.ws.onopen = () => {
+          console.log('connected')
+        }
+    
+        this.ws.onmessage = evt => {
+
+            //modtag hiscore liste
+
+        }
+    
+        this.ws.onclose = () => {
+          console.log('disconnected')
+          this.setState({
+            ws: new WebSocket(URL),
+          })
+        }
+      }
+  
+      addMessage = message =>
+      this.setState(state => ({ messages: [message, ...state.messages] }))
+  
+      submitMessage()
+      {
+          this.ws.send("megafed")
+      }
+
 
     getSoundMessage() {
         switch (this.state.randomSound) {
@@ -80,6 +111,7 @@ class Board extends React.Component {
         clearInterval(this.state.timerId);
         this.setState({gameInProgress: false});
         console.log("You stopped the game! Final score: ", this.state.score)
+        
     }
 
     soundRightClicked() {
@@ -164,5 +196,36 @@ class Board extends React.Component {
         );
     }
 }
+
+
+
+    componentDidMount() {
+      this.ws.onopen = () => {
+        // on connecting, do nothing but log it to the console
+        console.log('connected')
+      }
+  
+      this.ws.onmessage = evt => {
+        // on receiving a message, add it to the list of messages
+
+        console.log(evt)
+      }
+  
+      this.ws.onclose = () => {
+        console.log('disconnected')
+        // automatically try to reconnect on connection loss
+        this.setState({
+          ws: new WebSocket(URL),
+        })
+      }
+    }
+
+    addMessage = message =>
+    this.setState(state => ({ messages: [message, ...state.messages] }))
+
+    submitMessage()
+    {
+        this.ws.send("megafed")
+    }
 
 export default Board;
