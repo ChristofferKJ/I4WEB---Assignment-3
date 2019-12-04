@@ -88,10 +88,6 @@ class Board extends React.Component {
     }
 
     startGame() {
-<<<<<<< HEAD
-        this.setState({gameInProgress: true});
-        this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
-=======
         let item = localStorage.getItem('token');
         console.log(item);
         if (item !== "undefined") {
@@ -100,7 +96,6 @@ class Board extends React.Component {
         } else {
             alert("Login or register to play")
         }
->>>>>>> 2645dc448da383480bad2b647831b180a703b053
     }
 
     gameIterations() {
