@@ -8,13 +8,17 @@ class Login extends React.Component {
         };
     }
 
+    handleLogin(username, password) {
+        console.log(username, password);
+    }
+
     render() {
         return (
             <div>
                 <p>Login</p>
-                <form className="loginForm">
-                    Username: <input type="text" name="username" />
-                    Password: <input type="password" name="password" />
+                <form className="loginForm" onSubmit={e => this.handleLogin(e.target.usernameId.value, e.target.passwordId.value)} >
+                    Username: <input type="text" name="username" id="usernameId" />
+                    Password: <input type="password" name="password" id="passwordId" />
                     <input type="submit" value="Login"></input>
                 </form>
             </div>

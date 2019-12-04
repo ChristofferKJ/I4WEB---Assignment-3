@@ -80,28 +80,23 @@ class Board extends React.Component {
     }
 
     soundRightClicked() {
-        if(this.state.gameInProgress)
-        {
-            if(this.state.randomSound == this.state.history[this.state.history.length-this.state.n].randomSound)
-            {
-                this.setState({score: this.state.score + 1});
+        if (this.state.gameInProgress) {
+            if (this.state.randomSound == this.state.history[this.state.history.length - this.state.n].randomSound) {
+                this.setState({ score: this.state.score + 1 });
             }
-            else
-            {                
-                this.setState({score: this.state.score - 1});
+            else {
+                this.setState({ score: this.state.score - 1 });
             }
         }
     }
 
     positionRightClicked() {
-        if(this.state.gameInProgress)
-        {
-            if(this.state.randomPosition == this.state.history[this.state.history.length-2].randomPosition)
-            {
-                this.setState({score: this.state.score + 1});
+        if (this.state.gameInProgress) {
+            if (this.state.randomPosition == this.state.history[this.state.history.length - 2].randomPosition) {
+                this.setState({ score: this.state.score + 1 });
             }
             else
-            this.setState({score: this.state.score - 1});
+                this.setState({ score: this.state.score - 1 });
         }
     }
 
@@ -109,7 +104,7 @@ class Board extends React.Component {
         return (
             <div>
                 <p>Select n</p>
-                <select onChange={(e) => this.setState({n: parseInt(e.currentTarget.value)})}>
+                <select onChange={(e) => this.setState({ n: parseInt(e.currentTarget.value) })}>
                     <option value="1">
                         1
                         </option>
@@ -133,14 +128,13 @@ class Board extends React.Component {
                         </option>
                 </select>
 
-
                 <p>
                     score: {this.state.score}
                 </p>
 
                 <button className={this.state.gameInProgress ? 'hidden' : 'button'} onClick={() => this.startGame()}>Start</button>
                 <button className={!this.state.gameInProgress ? 'hidden' : 'button'} onClick={() => this.stopGame()}>Stop</button>
-                
+
 
                 <div className="board-row">
                     {this.renderSquare(0)}
