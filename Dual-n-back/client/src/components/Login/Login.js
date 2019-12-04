@@ -5,6 +5,7 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            token: null
         };
     }
 
@@ -22,10 +23,9 @@ class Login extends React.Component {
             headers: { 'Content-Type': 'application/json' }
         }).then(function (response) {
             response.json().then(json => {
-
-                const {token} = json;
-                //todo save token here
-                console.log(token);
+                const { token } = json;
+                this.setState({ token: token })
+                localStorage.setItem('token', token);
             })
         });
     }
@@ -37,7 +37,7 @@ class Login extends React.Component {
                 <form className="loginForm" onSubmit={e => this.handleLogin(e)} >
                     Username: <input type="text" name="username" id="usernameId" />
                     Password: <input type="password" name="password" id="passwordId" />
-                    <input type="submit" value="Login" id="loginId"/>
+                    <input type="submit" value="Login" id="loginId" />
                 </form>
             </div>
         );

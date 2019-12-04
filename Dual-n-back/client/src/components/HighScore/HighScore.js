@@ -9,9 +9,13 @@ class HighScore extends React.Component {
         };
     }
 
+
     fetchHighscores() {
         //TODO: FETCH HIGHSCORES INTO STATE
+        localStorage.getItem('token');
+        console.log("TOKEN: ", localStorage.getItem('token'))
         this.setState({ Highscores: [30, 27, 25, 24, 24, 21, 19, 12, 11, 10] })
+
     }
 
     render() {

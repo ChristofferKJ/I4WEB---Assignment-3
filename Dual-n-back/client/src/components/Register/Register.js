@@ -14,8 +14,8 @@ class Register extends React.Component {
         let password;
         let confirm_password
 
-        username = event.target.usernameId.value;
-        password = event.target.passwordId.value;
+        username = event.target.registerusernameId.value;
+        password = event.target.registerpasswordId.value;
         confirm_password = event.target.confirm_passwordId.value;
 
         fetch('http://localhost:4000/user/register', {
@@ -35,10 +35,10 @@ class Register extends React.Component {
             <div>
                 <p>Register</p>
                 <form className="registerForm" onSubmit={e => this.handleRegister(e)} >
-                    Username: <input type="text" name="username" id="usernameId" />
-                    Password: <input type="password" name="password" id="passwordId" />
+                    Username: <input type="text" name="username" id="registerusernameId" />
+                    Password: <input type="password" name="password" id="registerpasswordId" />
                     Confirm password: <input type="password" name="confirm_password" id="confirm_passwordId" />
-                    <input type="submit" value="Register" id="registerId"/>
+                    <input type="submit" value="Register" id="registerId" />
 
                 </form>
             </div>
