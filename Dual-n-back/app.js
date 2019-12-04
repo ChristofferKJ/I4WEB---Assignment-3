@@ -74,7 +74,7 @@ app.use(function (err, req, res, next) {
 
 
 
-// Create a server object
+// WEBSOCKET 
 const server = net.createServer((socket) => {
   socket.on('data', (data) => {
     console.log(data.toString());
@@ -90,7 +90,5 @@ const server = net.createServer((socket) => {
 server.listen(9898, () => {
   console.log('opened server on', server.address().port);
 });
-
-
 
 module.exports = app;
