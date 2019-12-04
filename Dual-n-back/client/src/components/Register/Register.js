@@ -13,17 +13,17 @@ class Register extends React.Component {
         let password;
         let confirm_password
 
-        username = event.target.registerUsernameId.value;
-        password = event.target.registerPasswordId.value;
-        confirm_password = event.target.confirm_registerPasswordId.value;
+        username = event.target.registerusernameId.value;
+        password = event.target.registerpasswordId.value;
+        confirm_password = event.target.confirm_passwordId.value;
 
         fetch('http://localhost:4000/user/register', {
             method: 'post',
-            body: JSON.stringify({username, password, confirm_password}),
-            headers: {'Content-Type': 'application/json'}
+            body: JSON.stringify({ username, password, confirm_password }),
+            headers: { 'Content-Type': 'application/json' }
         }).then(function (response) {
             response.json().then(json => {
-                const {token} = json;
+                const { token } = json;
                 //todo save token here
                 console.log(token);
             })
@@ -35,11 +35,11 @@ class Register extends React.Component {
         return (
             <div>
                 <p>Register</p>
-                <form className="registerForm" onSubmit={e => this.handleRegister(e)}>
-                    Username: <input type="text" name="username" id="registerUsernameId"/>
-                    Password: <input type="password" name="password" id="registerPasswordId"/>
-                    Confirm password: <input type="password" name="confirm_password" id="confirm_registerPasswordId"/>
-                    <input type="submit" value="Register" id="registerId"/>
+                <form className="registerForm" onSubmit={e => this.handleRegister(e)} >
+                    Username: <input type="text" name="username" id="registerusernameId" />
+                    Password: <input type="password" name="password" id="registerpasswordId" />
+                    Confirm password: <input type="password" name="confirm_password" id="confirm_passwordId" />
+                    <input type="submit" value="Register" id="registerId" />
 
                 </form>
             </div>

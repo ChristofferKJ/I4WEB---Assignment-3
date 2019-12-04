@@ -10,6 +10,7 @@ class HighScore extends React.Component {
         };
     }
 
+
     fetchHighscores() {
         let scores = [];
         let names = [];
@@ -22,11 +23,15 @@ class HighScore extends React.Component {
 
                     names.push(e.username);
                     scores.push(e.score);
-                     thisRef.setState({Highscores: scores})
-                    thisRef.setState({Usernames: names})
+                    thisRef.setState({ Highscores: scores })
+                    thisRef.setState({ Usernames: names })
                 })
             })
         });
+        //TODO: FETCH HIGHSCORES INTO STATE
+        localStorage.getItem('token');
+        console.log("TOKEN: ", localStorage.getItem('token'))
+
     }
 
     render() {

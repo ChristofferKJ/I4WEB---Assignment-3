@@ -1,6 +1,9 @@
 import React from 'react';
 import Square from '../Square/Square';
 import './Board.css';
+import HighScore from '../HighScore/HighScore';
+const URL = 'ws://localhost:3030'
+
 
 
 class Board extends React.Component {
@@ -17,6 +20,36 @@ class Board extends React.Component {
             n: 2
         };
     }
+
+    ws = new WebSocket(URL);
+
+    componentDidMount() {
+        this.ws.onopen = () => {
+          console.log('connected')
+        }
+    
+        this.ws.onmessage = evt => {
+
+            console.log(evt)
+
+        }
+    
+        this.ws.onclose = () => {
+          console.log('disconnected')
+          this.setState({
+            ws: new WebSocket(URL),
+          })
+        }
+      }
+  
+      addMessage = message =>
+      this.setState(state => ({ messages: [message, ...state.messages] }))
+  
+      submitMessage()
+      {
+          this.ws.send("megafed")
+      }
+
 
     getSoundMessage() {
         switch (this.state.randomSound) {
@@ -59,8 +92,9 @@ class Board extends React.Component {
     }
 
     startGame() {
-        this.setState({gameInProgress: true});
-        this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
+        this.submitMessage("hey yo"); 
+        //this.setState({gameInProgress: true});
+        //this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
     }
 
     gameIterations() {
@@ -80,6 +114,7 @@ class Board extends React.Component {
         clearInterval(this.state.timerId);
         this.setState({gameInProgress: false});
         console.log("You stopped the game! Final score: ", this.state.score)
+        
     }
 
     soundRightClicked() {
@@ -164,5 +199,7 @@ class Board extends React.Component {
         );
     }
 }
+
+
 
 export default Board;
