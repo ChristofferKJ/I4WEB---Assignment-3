@@ -80,11 +80,12 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-//websocket
+
+
+//websocket inspiration fra  https://blog.bitlabstudio.com/a-simple-chat-app-with-react-node-and-websocket-35d3c9835807
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(data) {
     wss.clients.forEach(function each(client) {
-      console.log("1")
       client.send(data); 
     });
   });

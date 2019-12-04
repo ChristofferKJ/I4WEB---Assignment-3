@@ -22,6 +22,7 @@ class Board extends React.Component {
         };
     }
 
+    //websocket inspiration fra  https://blog.bitlabstudio.com/a-simple-chat-app-with-react-node-and-websocket-35d3c9835807
     componentDidMount() {
         this.ws.onopen = () => {
             console.log('connected')
