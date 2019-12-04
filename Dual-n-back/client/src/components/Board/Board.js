@@ -92,9 +92,8 @@ class Board extends React.Component {
     }
 
     startGame() {
-        this.submitMessage("hey yo"); 
-        //this.setState({gameInProgress: true});
-        //this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
+        this.setState({gameInProgress: true});
+        this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
     }
 
     gameIterations() {
@@ -112,6 +111,7 @@ class Board extends React.Component {
 
     stopGame() {
         clearInterval(this.state.timerId);
+        this.setState({randomPosition: null});
         this.setState({gameInProgress: false});
         console.log("You stopped the game! Final score: ", this.state.score)
         
