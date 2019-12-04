@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const passport = require('passport');
+const net = require('net');
+
 
 //passport config
 require('./config/local')(passport)
@@ -68,6 +70,25 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+
+
+// WEBSOCKET 
+const server = net.createServer((socket) => {
+  socket.on('data', (data) => {
+    console.log(data.toString());
+  });
+
+  socket.write('SERVER: Hello! This is server speaking.\n');
+  socket.end('SERVER: Closing connection now.\n');
+}).on('error', (err) => {
+  console.error(err);
+});
+
+// Open server on port 9898
+server.listen(9898, () => {
+  console.log('opened server on', server.address().port);
 });
 
 module.exports = app;
