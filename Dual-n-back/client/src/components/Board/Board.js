@@ -38,66 +38,66 @@ class Board extends React.Component {
                 return "Mogadishu";
             case 8:
                 return "Nine";
+            default:
+                return "s"
         }
     }
 
     renderSquare(i) {
-        if (this.state.randomPosition == i) {
-            return <Square value={this.state.squares[i]} className="picked-square" />
+        if (this.state.randomPosition === i) {
+            return <Square value={this.state.squares[i]} className="picked-square"/>
         }
-        return <Square value={this.state.squares[i]} className="square" />;
+        return <Square value={this.state.squares[i]} className="square"/>;
     }
 
     textToSpeech() {
         var message = this.getSoundMessage();
-        var msg = new SpeechSynthesisUtterance(message)
-        var voices = window.speechSynthesis.getVoices()
-        msg.voice = voices[0]
+        var msg = new SpeechSynthesisUtterance(message);
+        var voices = window.speechSynthesis.getVoices();
+        msg.voice = voices[0];
         window.speechSynthesis.speak(msg)
     }
 
     startGame() {
-        this.setState({ gameInProgress: true });
-        this.setState({ timerId: window.setInterval(() => this.gameIterations(), 4000) })
+        this.setState({gameInProgress: true});
+        this.setState({timerId: window.setInterval(() => this.gameIterations(), 4000)})
     }
 
     gameIterations() {
-        this.setState({ randomPosition: Math.floor(Math.random() * 9), randomSound: Math.floor(Math.random() * 9) });
+        this.setState({randomPosition: Math.floor(Math.random() * 9), randomSound: Math.floor(Math.random() * 9)});
         this.state.history.push(this.state);
         console.log("Game history: ", this.state.history);
         this.textToSpeech();
-        if (this.state.history.length == 24) {
+        if (this.state.history.length === 24) {
             // STOP GAME
-            console.log("Game is over! Final score: ", this.state.score)
-            this.setState({ gameInProgress: false })
+            console.log("Game is over! Final score: ", this.state.score);
+            this.setState({gameInProgress: false});
             window.clearInterval(this.state.timerId);
         }
     }
 
     stopGame() {
         clearInterval(this.state.timerId);
-        this.setState({ gameInProgress: false });
+        this.setState({gameInProgress: false});
         console.log("You stopped the game! Final score: ", this.state.score)
     }
 
     soundRightClicked() {
         if (this.state.gameInProgress) {
-            if (this.state.randomSound == this.state.history[this.state.history.length - this.state.n].randomSound) {
-                this.setState({ score: this.state.score + 1 });
-            }
-            else {
-                this.setState({ score: this.state.score - 1 });
+            if (this.state.randomSound === this.state.history[this.state.history.length - this.state.n].randomSound) {
+                this.setState({score: this.state.score + 1});
+            } else {
+                this.setState({score: this.state.score - 1});
             }
         }
     }
 
     positionRightClicked() {
         if (this.state.gameInProgress) {
-            if (this.state.randomPosition == this.state.history[this.state.history.length - 2].randomPosition) {
-                this.setState({ score: this.state.score + 1 });
-            }
-            else
-                this.setState({ score: this.state.score - 1 });
+            if (this.state.randomPosition === this.state.history[this.state.history.length - 2].randomPosition) {
+                this.setState({score: this.state.score + 1});
+            } else
+                this.setState({score: this.state.score - 1});
         }
     }
 
@@ -105,36 +105,40 @@ class Board extends React.Component {
         return (
             <div>
                 <p>Select n</p>
-                <select onChange={(e) => this.setState({ n: parseInt(e.currentTarget.value) })}>
+                <select onChange={(e) => this.setState({n: parseInt(e.currentTarget.value)})}>
                     <option value="1">
                         1
-                        </option>
+                    </option>
                     <option value="2">
                         2
-                        </option>
+                    </option>
                     <option value="3">
                         3
-                        </option>
+                    </option>
                     <option value="4">
                         4
-                        </option>
+                    </option>
                     <option value="5">
                         5
-                        </option>
+                    </option>
                     <option value="6">
                         6
-                        </option>
+                    </option>
                     <option value="7">
                         7
-                        </option>
+                    </option>
                 </select>
 
                 <p>
                     score: {this.state.score}
                 </p>
 
-                <button className={this.state.gameInProgress ? 'hidden' : 'button'} onClick={() => this.startGame()}>Start</button>
-                <button className={!this.state.gameInProgress ? 'hidden' : 'button'} onClick={() => this.stopGame()}>Stop</button>
+                <button className={this.state.gameInProgress ? 'hidden' : 'button'}
+                        onClick={() => this.startGame()}>Start
+                </button>
+                <button className={!this.state.gameInProgress ? 'hidden' : 'button'}
+                        onClick={() => this.stopGame()}>Stop
+                </button>
 
 
                 <div className="board-row">

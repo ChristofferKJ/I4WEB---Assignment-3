@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const passport = require('passport');
 const net = require('net');
-
+var cors = require('cors')
 
 //passport config
 require('./config/local')(passport)
@@ -17,6 +17,7 @@ var scoreRouter = require('./routes/scoreRoute');
 var userRouter = require('./routes/userRoute')
 
 var app = express();
+app.use(cors())
 // Mongoose & mongodb
 const mongoose = require('mongoose');
 var uri = "mongodb+srv://admin:admin@fitnessmongo-3cmix.gcp.mongodb.net/FitnessApp?retryWrites=true&w=majority"

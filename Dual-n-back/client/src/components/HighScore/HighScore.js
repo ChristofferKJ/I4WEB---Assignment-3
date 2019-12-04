@@ -15,7 +15,7 @@ class HighScore extends React.Component {
     }
 
     render() {
-        if (this.state.Highscores.length == 0) {
+        if (this.state.Highscores.length === 0) {
             this.fetchHighscores();
         }
         return (
