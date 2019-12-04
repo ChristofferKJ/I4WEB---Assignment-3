@@ -104,7 +104,7 @@ class Board extends React.Component {
         this.state.history.push(this.state);
         console.log("Game history: ", this.state.history);
         this.textToSpeech();
-        if (this.state.history.length === 4) {
+        if (this.state.history.length === 24) {
             // STOP GAME
 
             console.log("Game is over! Final score: ", this.state.score);
