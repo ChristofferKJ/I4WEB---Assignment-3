@@ -90,7 +90,7 @@ class Board extends React.Component {
     startGame() {
         let item = localStorage.getItem('token');
         console.log(item);
-        if (item !== "undefined") {
+        if (item !== "undefined" && item !== undefined) {
             this.setState({ gameInProgress: true });
             this.setState({ timerId: window.setInterval(() => this.gameIterations(), 4000) })
         } else {
