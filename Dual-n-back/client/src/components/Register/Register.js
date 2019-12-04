@@ -4,8 +4,7 @@ import './Register.css';
 class Register extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.state = {};
     }
 
     handleRegister(event) {
@@ -20,13 +19,16 @@ class Register extends React.Component {
 
         fetch('http://localhost:4000/user/register', {
             method: 'post',
-            body: JSON.stringify({ username, password, confirm_password }),
-            headers: { 'Content-Type': 'application/json' }
+            body: JSON.stringify({username, password, confirm_password}),
+            headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
-            let reader = response.body.getReader();
-            console.log(response.json());
+            response.json().then(json => {
+                const {token} = json;
+                //todo save token here
+                console.log(token);
+            })
         });
-        console.log(JSON.stringify({ username, password, confirm_password }));
+
 
     }
 
@@ -34,10 +36,10 @@ class Register extends React.Component {
         return (
             <div>
                 <p>Register</p>
-                <form className="registerForm" onSubmit={e => this.handleRegister(e)} >
-                    Username: <input type="text" name="username" id="usernameId" />
-                    Password: <input type="password" name="password" id="passwordId" />
-                    Confirm password: <input type="password" name="confirm_password" id="confirm_passwordId" />
+                <form className="registerForm" onSubmit={e => this.handleRegister(e)}>
+                    Username: <input type="text" name="username" id="usernameId"/>
+                    Password: <input type="password" name="password" id="passwordId"/>
+                    Confirm password: <input type="password" name="confirm_password" id="confirm_passwordId"/>
                     <input type="submit" value="Register" id="registerId"/>
 
                 </form>
